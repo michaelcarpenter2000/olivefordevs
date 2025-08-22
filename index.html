@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Olive for Devs — Automated Bookkeeping & Tax Prep</title>
+  <meta name="description" content="Olive for Devs automates bookkeeping and tax prep for developers. $99/mo. Free 30 days. No credit card. Connect your bank and email—Olive handles the rest." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            olive: {
+              green: '#31a632'
+            },
+            ink: {
+              900: '#0A0A0B',
+              800: '#111214',
+              700: '#15171A',
+              600: '#1B1E22',
+              500: '#23272B'
+            }
+          },
+          boxShadow: {
+            glow: '0 10px 30px rgba(49, 166, 50, 0.35)',
+            soft: '0 10px 30px rgba(0,0,0,0.25)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Poppins Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --brand: #31a632;
+      --bg: #0B0C0D;
+      --card: #121416;
+      --muted: #98A2B3;
+      --text: #E8ECEF;
+    }
+    html, body {
+      background: radial-gradient(1200px 600px at 70% -10%, rgba(49,166,50,0.10), transparent 50%),
+                  radial-gradient(800px 400px at -10% 10%, rgba(49,166,50,0.06), transparent 60%),
+                  #0A0B0C;
+      color: var(--text);
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.35;
+    }
+    .glass {
+      background: rgba(18,20,22,0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .btn {
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+      will-change: transform;
+    }
+    .btn:active { transform: translateY(1px) scale(.99); }
+    .badge {
+      background: rgba(49,166,50,0.12);
+      border: 1px solid rgba(49,166,50,0.35);
+      color: #bff0bf;
+    }
+    .hero-gradient {
+      background: radial-gradient(900px 420px at 50% -10%, rgba(49,166,50,0.20), rgba(49,166,50,0.05) 45%, transparent 65%);
+    }
+    .list-check li {
+      padding-left: 2rem;
+      position: relative;
+    }
+    .list-check li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, #31a632, #2a8e2a);
+      box-shadow: 0 6px 16px rgba(49,166,50,0.35), inset 0 0 0 2px rgba(255,255,255,0.18);
+      mask: radial-gradient(circle at 65% 35%, rgba(255,255,255,.55) 0 30%, transparent 31% 100%) exclude;
+    }
+    .list-check li svg {
+      position: absolute;
+      left: 3px;
+      top: 9px;
+      color: white;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    }
+    .kpi {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo-dot {
+      width: 12px; height: 12px; border-radius: 999px; background: #31a632; box-shadow: 0 0 0 4px rgba(49,166,50,0.18), 0 6px 16px rgba(49,166,50,0.5);
+    }
+    .shadow-brand { box-shadow: 0 10px 25px rgba(49,166,50,0.35); }
+    .link-muted { color: #AAB4C0; }
+    .link-muted:hover { color: #E6EBEF; }
+  </style>
+</head>
+<body class="antialiased selection:bg-olive-green/30 selection:text-white">
+  <!-- Top Nav -->
+  <header class="sticky top-0 z-50">
+    <div class="glass">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- Brand -->
+        <a href="#top" class="group flex items-center gap-3 no-underline">
+          <div class="flex items-baseline gap-1">
+            <span class="font-semibold text-lg tracking-tight">Olive</span>
+            <span class="text-white/60 font-medium">for Devs</span>
+          </div>
+        </a>
+
+        <!-- Nav Right -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="#how" class="px-3 py-2 rounded-lg link-muted hover:bg-white/5">How it works</a>
+          <a href="#pricing" class="px-3 py-2 rounded-lg link-muted hover:bg-white/5">Pricing</a>
+          <a href="#faq" class="px-3 py-2 rounded-lg link-muted hover:bg-white/5">FAQ</a>
+
+          <!-- Login -->
+          <a href="#login" class="px-4 py-2 rounded-lg link-muted hover:text-white hover:bg-white/5 flex items-center gap-2">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            Log in
+          </a>
+
+          <!-- CTA -->
+          <a href="#start" class="btn bg-olive-green text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#2a8e2a] shadow-brand">
+            Start free — 30 days
+          </a>
+        </div>
+
+        <!-- Mobile CTA -->
+        <div class="md:hidden flex items-center gap-2">
+          <a href="#login" class="p-2 rounded-lg hover:bg-white/5"><i data-lucide="log-in" class="w-5 h-5 text-white/80"></i></a>
+          <a href="#start" class="btn bg-olive-green text-white px-3 py-2 rounded-lg font-semibold hover:bg-[#2a8e2a]">Start free</a>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top" class="hero-gradient">
+    <section class="max-w-7xl mx-auto px-6 pt-10 md:pt-16">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+        <!-- Copy -->
+        <div>
+          <div class="inline-flex items-center gap-2 badge px-3 py-1 rounded-full text-sm mb-5">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            Automated bookkeeping + taxes for devs
+          </div>
+          <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.05] mb-5">
+            Bookkeeping & Tax Prep,
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">Done For You.</span>
+          </h1>
+          <p class="text-lg md:text-xl text-white/80 max-w-xl mb-8">
+            Olive connects to your bank and email, categorizes everything, files what’s needed, and keeps you audit‑ready—without you lifting a finger.
+          </p>
+
+
+          <!-- CTA Row -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a id="ctaStartTop" href="#start" class="btn bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-6 py-3 rounded-xl shadow-brand inline-flex items-center justify-center gap-2">
+              <i data-lucide="rocket" class="w-5 h-5"></i>
+              Start free for 30 days
+            </a>
+            <button id="seeDemo" class="btn px-6 py-3 rounded-xl font-semibold bg-white/5 hover:bg-white/10 text-white inline-flex items-center justify-center gap-2">
+              <i data-lucide="log-in" class="w-5 h-5"></i>
+              Log in
+            </button>
+          </div>
+
+          <!-- Trust Row -->
+          <div class="flex flex-wrap items-center gap-4 mt-6 text-white/60">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+              Bank‑grade security
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+              Cancel anytime
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Audit‑ready records
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Panel -->
+        <div class="relative">
+          <div class="card rounded-2xl p-6 md:p-8 shadow-soft">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="font-semibold">Olive Console</div>
+              </div>
+              <span class="badge px-2.5 py-1 rounded-full text-xs">Live</span>
+            </div>
+
+            <!-- Simulated dashboard -->
+            <div class="grid gap-4">
+              <div class="rounded-xl p-4 bg-white/5 border border-white/10">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="text-white/70 text-sm">This month categorized</div>
+                  <i data-lucide="folder-check" class="w-5 h-5 text-white/70"></i>
+                </div>
+                <div class="text-3xl font-bold">$18,420</div>
+                <div class="text-emerald-300 text-sm mt-1 inline-flex items-center gap-1">
+                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i> +12% vs last month
+                </div>
+              </div>
+
+              <div class="rounded-xl p-4 bg-white/5 border border-white/10">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="text-white/70 text-sm">Tax estimates (YTD)</div>
+                  <i data-lucide="calculator" class="w-5 h-5 text-white/70"></i>
+                </div>
+                <div class="text-3xl font-bold">$7,960</div>
+                <div class="text-white/60 text-sm mt-1">Automatically updated weekly</div>
+              </div>
+
+              <div class="rounded-xl p-4 bg-white/5 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="text-white/70 text-sm">Next filing</div>
+                  <i data-lucide="calendar-check-2" class="w-5 h-5 text-white/70"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-semibold">Quarterly Estimated Taxes</div>
+                    <div class="text-white/60 text-sm">Due Apr 15</div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/15 text-emerald-300 border border-emerald-400/30">Scheduled</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider my-6"></div>
+
+            <!-- Connect row -->
+            <div class="grid sm:grid-cols-2 gap-3">
+              <button id="connectBank" class="btn rounded-xl px-4 py-3 bg-white/5 text-white flex items-center justify-center gap-2 opacity-70 cursor-not-allowed" aria-disabled="true" tabindex="-1">
+                <i data-lucide="banknote" class="w-5 h-5"></i>
+                Connect bank
+              </button>
+              <button id="connectEmail" class="btn rounded-xl px-4 py-3 bg-white/5 text-white flex items-center justify-center gap-2 opacity-70 cursor-not-allowed" aria-disabled="true" tabindex="-1">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+                Connect email
+              </button>
+            </div>
+          </div>
+
+          <!-- Floating badge -->
+          <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-olive-green text-white px-8 md:px-10 py-2.5 rounded-full text-sm font-semibold shadow-glow whitespace-nowrap">
+            Set up in under 2 minutes
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- How it works -->
+    <section id="how" class="max-w-7xl mx-auto px-6 mt-24">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">From signup to peace of mind in 2 steps</h2>
+        <p class="text-white/70 mt-3">No spreadsheets. No manual categorizing. No guesswork.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-xl bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center mb-4">
+            <i data-lucide="link" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-2">Connect accounts</h3>
+          <p class="text-white/70">Securely link your bank and email in minutes. Your data stays protected.</p>
+        </div>
+
+        <div class="card rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-xl bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center mb-4">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-2">Olive auto‑handles</h3>
+          <p class="text-white/70">We categorize transactions, track expenses, estimate taxes, and prep filings—automatically.</p>
+        </div>
+
+        <div class="card rounded-2xl p-6">
+          <div class="w-12 h-12 rounded-xl bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center mb-4">
+            <i data-lucide="thumbs-up" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-semibold text-xl mb-2">You ship code</h3>
+          <p class="text-white/70">Stay focused on building. Olive keeps you accurate, compliant, and audit‑ready.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value props -->
+    <section class="max-w-7xl mx-auto px-6 mt-24">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <div class="card rounded-2xl p-6 md:p-8">
+          <h3 class="text-2xl font-bold mb-4">What you’ll get</h3>
+          <ul class="list-check space-y-4 text-white/90">
+            <li class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Real‑time categorization and clean books
+            </li>
+            <li class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Automatic tax estimates and reminders
+            </li>
+            <li class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Filing prep and audit‑ready exports
+            </li>
+            <li class="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Live support from real humans
+            </li>
+          </ul>
+        </div>
+
+        <div class="card rounded-2xl p-6 md:p-8">
+          <h3 class="text-2xl font-bold mb-4">Why it’s a no‑brainer</h3>
+          <div class="space-y-4 text-white/90">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                <i data-lucide="clock" class="w-4 h-4 text-white/70"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Save 5–10 hours/month</div>
+                <div class="text-white/70">No more categorizing, chasing receipts, or deadline stress.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                <i data-lucide="wallet" class="w-4 h-4 text-white/70"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Flat $99/mo</div>
+                <div class="text-white/70">Transparent pricing. No surprises. Cancel anytime.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
+                <i data-lucide="file-check-2" class="w-4 h-4 text-white/70"></i>
+              </div>
+              <div>
+                <div class="font-semibold">Stay compliant</div>
+                <div class="text-white/70">Always know what’s due and when. Be ready for anything.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="max-w-7xl mx-auto px-6 mt-24">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">One plan. Everything included.</h2>
+        <p class="text-white/70 mt-3">Free 30 days. No credit card. Set up in minutes.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 items-stretch">
+        <div class="card rounded-2xl p-6 md:p-8 flex flex-col relative overflow-hidden">
+          <div class="absolute right-4 top-4 badge px-2.5 py-1 rounded-full text-xs">Most popular</div>
+          <div class="text-sm text-white/60 mb-2">Monthly</div>
+          <div class="text-5xl font-extrabold">$99</div>
+          <div class="text-white/60 mb-6">per month</div>
+          <ul class="space-y-3 text-white/90 mb-8">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Automated bookkeeping</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Tax estimates & reminders</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Filing prep exports</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Live chat support</li>
+          </ul>
+          <a href="#start" class="btn mt-auto bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-5 py-3 rounded-xl text-center">Start free — 30 days</a>
+        </div>
+
+        <div class="card rounded-2xl p-6 md:p-8 flex flex-col">
+          <div class="text-sm text-white/60 mb-2">Annual</div>
+          <div class="text-5xl font-extrabold">$990</div>
+          <div class="text-emerald-300 mb-6 inline-flex items-center gap-1"><i data-lucide="gift" class="w-4 h-4"></i> 2 months free</div>
+          <ul class="space-y-3 text-white/90 mb-8">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Everything in Monthly</li>
+          </ul>
+          <a href="#start" class="btn mt-auto bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-5 py-3 rounded-xl text-center">Start free — 30 days</a>
+        </div>
+
+        <div class="card rounded-2xl p-6 md:p-8 flex flex-col">
+          <div class="text-sm text-white/60 mb-2">Starter</div>
+          <div class="text-5xl font-extrabold">$0</div>
+          <div class="text-white/60 mb-6">30 days free trial</div>
+          <ul class="space-y-3 text-white/90 mb-8">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Connect bank & email</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> See auto‑categorization</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Get your first reports</li>
+          </ul>
+          <a href="#start" class="btn mt-auto bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-3 rounded-xl text-center">Start free now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA: Start -->
+    <section id="start" class="max-w-3xl mx-auto px-6 mt-24">
+      <div class="card rounded-2xl p-6 md:p-8">
+        <div class="flex flex-col md:flex-row md:items-center gap-6">
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold mb-2">Start your 30‑day free trial</h3>
+            <p class="text-white/70">No credit card needed. Just connect your bank and email—Olive does the rest.</p>
+          </div>
+          <div class="flex gap-3">
+            <button id="startTrial" class="btn bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-5 py-3 rounded-xl inline-flex items-center gap-2">
+              <i data-lucide="rocket" class="w-5 h-5"></i> Start free
+            </button>
+            <button id="contactSales" class="btn bg-white/5 hover:bg-white/10 text-white font-semibold px-5 py-3 rounded-xl inline-flex items-center gap-2">
+              <i data-lucide="message-square" class="w-5 h-5"></i> Chat with us
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="max-w-5xl mx-auto px-6 mt-24">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Questions? We’ve got answers.</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="card rounded-xl p-5">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            How does the free trial work?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-white/60"></i>
+          </summary>
+          <div class="text-white/70 mt-3">
+            You get 30 days of full access. No credit card needed. Connect your bank and email to see Olive in action. Keep it if you love it—cancel anytime.
+          </div>
+        </details>
+
+        <details class="card rounded-xl p-5">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            Is it safe to connect my bank?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-white/60"></i>
+          </summary>
+          <div class="text-white/70 mt-3">
+            Yes. We use bank‑grade encryption and read‑only connections. Your credentials are never stored in plain text.
+          </div>
+        </details>
+
+        <details class="card rounded-xl p-5">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            What happens after the trial?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-white/60"></i>
+          </summary>
+          <div class="text-white/70 mt-3">
+            It’s $99/month. We’ll confirm before charging. You can cancel anytime with one click.
+          </div>
+        </details>
+
+        <details class="card rounded-xl p-5">
+          <summary class="cursor-pointer font-semibold flex items-center justify-between">
+            Can Olive file my taxes?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-white/60"></i>
+          </summary>
+          <div class="text-white/70 mt-3">
+            Olive preps your books, estimates, and filing‑ready exports. Filing services are available through partners.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto px-6 mt-24 mb-12">
+      <div class="divider mb-8"></div>
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <div class="flex items-baseline gap-1">
+            <span class="font-semibold">Olive</span>
+            <span class="text-white/60 font-medium">for Devs</span>
+          </div>
+        </div>
+        <div class="text-white/60 text-sm">
+          © <span id="year"></span> Olive for Devs. All rights reserved.
+        </div>
+        <div class="flex items-center gap-4">
+
+          <a href="#privacy" class="link-muted hover:text-white">Privacy</a>
+          <a href="#terms" class="link-muted hover:text-white">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Demo Modal -->
+  <div id="demoModal" class="fixed inset-0 hidden items-center justify-center p-6">
+    <div class="absolute inset-0 bg-black/70"></div>
+    <div class="relative w-full max-w-2xl glass rounded-2xl p-6 md:p-8 shadow-soft">
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <div class="text-xl font-bold">Olive in 60 seconds</div>
+          <div class="text-white/70 text-sm">Quick peek at how it works</div>
+        </div>
+        <button id="closeDemo" class="p-2 rounded-lg hover:bg-white/10 text-white/80">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <!-- Simulated demo steps -->
+      <ol class="space-y-4">
+        <li class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center font-semibold">1</div>
+          <div>
+            <div class="font-semibold">Connect your bank and email</div>
+            <div class="text-white/70 text-sm">Secure, read‑only connections. Takes about a minute.</div>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center font-semibold">2</div>
+          <div>
+            <div class="font-semibold">Olive categorizes and tracks automatically</div>
+            <div class="text-white/70 text-sm">Transactions, receipts, and tax estimates—handled for you.</div>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-400/15 border border-emerald-400/30 text-emerald-300 flex items-center justify-center font-semibold">3</div>
+          <div>
+            <div class="font-semibold">Get filing‑ready exports anytime</div>
+            <div class="text-white/70 text-sm">Stay compliant and audit‑ready with one click.</div>
+          </div>
+        </li>
+      </ol>
+      <!-- Easy video slot: paste an embed or video tag inside this box later -->
+      <div class="rounded-xl border border-white/10 bg-white/5 p-4 mb-6">
+        <div class="aspect-video w-full rounded-lg bg-black/40 flex items-center justify-center text-white/70">
+          <div class="text-center">
+            <i data-lucide="video" class="w-8 h-8 mx-auto mb-2"></i>
+            <div>Drop your video or embed here later</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 mt-6">
+        <a href="#start" class="btn bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-5 py-3 rounded-xl inline-flex items-center gap-2">
+          <i data-lucide="rocket" class="w-5 h-5"></i> Start free now
+        </a>
+        <button id="demoGotIt" class="btn bg-white/5 hover:bg-white/10 text-white font-semibold px-5 py-3 rounded-xl">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Anchor Modal (Sample) -->
+  <div id="login" class="fixed inset-0 hidden items-center justify-center p-6">
+    <div class="absolute inset-0 bg-black/70"></div>
+    <div class="relative w-full max-w-md glass rounded-2xl p-6 md:p-8 shadow-soft">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-xl font-bold">Log in</div>
+        <button id="closeLogin" class="p-2 rounded-lg hover:bg-white/10 text-white/80">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="text-white/70 text-sm mb-4">
+        This is a demo login modal to keep everything self‑contained here. In your live site, this would take users to your real login.
+      </div>
+      <div class="grid gap-3">
+        <button class="btn bg-olive-green hover:bg-[#2a8e2a] text-white font-semibold px-5 py-3 rounded-xl inline-flex items-center justify-center gap-2" onclick="alert('Demo: Log in successful!')">
+          Continue
+        </button>
+        <button class="btn bg-white/5 hover:bg-white/10 text-white font-semibold px-5 py-3 rounded-xl inline-flex items-center justify-center gap-2" onclick="document.getElementById('login').classList.add('hidden')">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Demo modal behavior (kept for later video)
+    const demoModal = document.getElementById('demoModal');
+    document.getElementById('seeDemo').addEventListener('click', () => {
+      // Open the same login modal for now
+      location.hash = '#login';
+    });
+    document.getElementById('closeDemo').addEventListener('click', () => {
+      demoModal.classList.add('hidden');
+      demoModal.classList.remove('flex');
+    });
+    document.getElementById('demoGotIt').addEventListener('click', () => {
+      demoModal.classList.add('hidden');
+      demoModal.classList.remove('flex');
+    });
+    demoModal.addEventListener('click', (e) => {
+      if (e.target === demoModal) {
+        demoModal.classList.add('hidden');
+        demoModal.classList.remove('flex');
+      }
+    });
+
+    // Start trial button scroll and feedback
+    function smoothScrollToStart() {
+      const el = document.querySelector('#start');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.getElementById('ctaStartTop').addEventListener('click', (e) => {
+      // allow anchor but smoothen experience
+      e.preventDefault();
+      smoothScrollToStart();
+    });
+
+    // Start trial button demo
+    document.getElementById('startTrial').addEventListener('click', () => {
+      alert('Awesome! In the live app, this would begin your free 30‑day trial and ask to connect your bank and email.');
+    });
+
+    // Connect buttons are disabled for now (kept for layout)
+
+    // Contact sales demo
+    document.getElementById('contactSales').addEventListener('click', () => {
+      alert('Demo: Chat widget would open here.');
+    });
+
+    // Login modal open/close if hash is #login
+    function handleHash() {
+      const loginModal = document.getElementById('login');
+      if (location.hash === '#login') {
+        loginModal.classList.remove('hidden');
+        loginModal.classList.add('flex');
+      } else {
+        loginModal.classList.add('hidden');
+        loginModal.classList.remove('flex');
+      }
+    }
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+
+    document.getElementById('closeLogin').addEventListener('click', () => {
+      history.pushState("", document.title, window.location.pathname + window.location.search);
+      handleHash();
+    });
+
+
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97301016340deb64',t:'MTc1NTg0MTUxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
