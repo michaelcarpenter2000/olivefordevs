@@ -135,10 +135,10 @@
           <a href="#faq" class="px-3 py-2 rounded-lg link-muted hover:bg-white/5">FAQ</a>
 
           <!-- Login -->
-          <a href="#login" class="px-4 py-2 rounded-lg link-muted hover:text-white hover:bg-white/5 flex items-center gap-2">
+          <a href="https://olive-landing.vercel.app/signin.html" class="px-4 py-2 rounded-lg link-muted hover:text-white hover:bg-white/5 flex items-center gap-2">
             <i data-lucide="log-in" class="w-4 h-4"></i>
             Log in
-          </a>
+          </a>          
 
           <!-- CTA -->
           <a href="#start" class="btn bg-olive-green text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#2a8e2a] shadow-brand">
@@ -148,7 +148,7 @@
 
         <!-- Mobile CTA -->
         <div class="md:hidden flex items-center gap-2">
-          <a href="#login" class="p-2 rounded-lg hover:bg-white/5"><i data-lucide="log-in" class="w-5 h-5 text-white/80"></i></a>
+          <a href="https://olive-landing.vercel.app/signin.html" class="p-2 rounded-lg hover:bg-white/5"><i data-lucide="log-in" class="w-5 h-5 text-white/80"></i></a>
           <a href="#start" class="btn bg-olive-green text-white px-3 py-2 rounded-lg font-semibold hover:bg-[#2a8e2a]">Start free</a>
         </div>
       </div>
@@ -184,7 +184,7 @@
             <button id="seeDemo" class="btn px-6 py-3 rounded-xl font-semibold bg-white/5 hover:bg-white/10 text-white inline-flex items-center justify-center gap-2">
               <i data-lucide="log-in" class="w-5 h-5"></i>
               Log in
-            </button>
+            </button>             
           </div>
 
           <!-- Trust Row -->
@@ -597,9 +597,8 @@
     // Demo modal behavior (kept for later video)
     const demoModal = document.getElementById('demoModal');
     document.getElementById('seeDemo').addEventListener('click', () => {
-      // Open the same login modal for now
-      location.hash = '#login';
-    });
+            window.location.href = "https://olive-landing.vercel.app/signin.html";
+        });
     document.getElementById('closeDemo').addEventListener('click', () => {
       demoModal.classList.add('hidden');
       demoModal.classList.remove('flex');
